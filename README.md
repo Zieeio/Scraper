@@ -1,8 +1,8 @@
-# Scraper API
+## Scraper API
 
 A FastAPI-based web scraper service that accepts POST requests with URLs and returns the content in markdown format.
 
-## Building the Docker Image
+### Building the Docker Image
 
 Build the Docker image with the following command:
 
@@ -10,9 +10,9 @@ Build the Docker image with the following command:
 docker build -t crawler-app .
 ```
 
-## Running the Container
+### Running the Container
 
-### Basic Run
+#### Basic Run
 
 Run the container and expose port 8000:
 
@@ -20,7 +20,7 @@ Run the container and expose port 8000:
 docker run -p 8000:8000 crawler-app
 ```
 
-### Run in Detached Mode
+#### Run in Detached Mode
 
 To run the container in the background:
 
@@ -28,11 +28,11 @@ To run the container in the background:
 docker run -d -p 8000:8000 --name crawler crawler-app
 ```
 
-## API Usage
+### API Usage
 
 Once the container is running, the API will be available at `http://localhost:8000`.
 
-### Health Check
+#### Health Check
 
 Check if the API is running:
 
@@ -40,7 +40,7 @@ Check if the API is running:
 curl http://localhost:8000/
 ```
 
-### Crawl a URL
+#### Crawl a URL
 
 Send a POST request to crawl a URL and get markdown content:
 
@@ -50,7 +50,7 @@ curl -X POST http://localhost:8000/crawl \
   -d '{"url": "https://example.com"}'
 ```
 
-### Example with JSON Output
+#### Example with JSON Output
 
 Using `jq` for formatted JSON output:
 
@@ -61,14 +61,14 @@ curl -X POST http://localhost:8000/crawl \
   -s | jq .
 ```
 
-## API Endpoints
+### API Endpoints
 
 - `GET /` - Health check endpoint
 - `POST /crawl` - Crawl a URL and return markdown content
   - Request body: `{"url": "https://example.com"}`
   - Response: `{"markdown": "..."}`
 
-## License
+### License
 
 Copyright 2025 Clivern
 
