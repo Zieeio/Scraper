@@ -1,6 +1,6 @@
-# Crawler API
+# Scraper API
 
-A FastAPI-based web crawler service that accepts POST requests with URLs and returns the content in markdown format.
+A FastAPI-based web scraper service that accepts POST requests with URLs and returns the content in markdown format.
 
 ## Building the Docker Image
 
