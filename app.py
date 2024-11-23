@@ -12,12 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from fastapi import FastAPI, HTTPException
+import os
+from fastapi import FastAPI, HTTPException, Header, Depends
 from pydantic import BaseModel
 from crawl4ai import AsyncWebCrawler
-import asyncio
 
 app = FastAPI()
+
+API_KEY = os.getenv("API_KEY")
+
+
+async def verify_api_key(x_api_key: str = Header(None)):
+    """
+    Optional API key verification.
+    """
+    if API_KEY:
+        if x_api_key is None:
+            raise HTTPException(
+                status_code=401,
+                detail="API key required. Please provide X-API-Key header.",
+            )
+        if x_api_key != API_KEY:
+            raise HTTPException(status_code=403, detail="Invalid API key.")
+    return True
 
 
 class URLRequest(BaseModel):
@@ -25,7 +42,7 @@ class URLRequest(BaseModel):
 
 
 @app.post("/crawl")
-async def crawl_url(request: URLRequest):
+async def crawl_url(request: URLRequest, _: bool = Depends(verify_api_key)):
     """
     Accepts a POST request with a URL and returns the content in markdown format.
     """
@@ -43,5 +60,5 @@ async def crawl_url(request: URLRequest):
 
 
 @app.get("/")
-async def root():
+async def root(_: bool = Depends(verify_api_key)):
     return {"message": "Crawler API is running"}
