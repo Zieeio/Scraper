@@ -61,4 +61,9 @@ async def crawl_url(request: URLRequest, _: bool = Depends(verify_api_key)):
 
 @app.get("/")
 async def root(_: bool = Depends(verify_api_key)):
-    return {"message": "Crawler API is running"}
+    return {"message": "OK"}
+
+
+@app.get("/_health")
+async def health(_: bool = Depends(verify_api_key)):
+    return {"message": "OK"}
