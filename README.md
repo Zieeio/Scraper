@@ -2,30 +2,12 @@
 
 A FastAPI-based web scraper service that accepts POST requests with URLs and returns the content in markdown format.
 
-### Building the Docker Image
-
-Build the Docker image with the following command:
-
-```bash
-docker build -t crawler-app .
-```
-
 ### Running the Container
 
-#### Basic Run
-
-Run the container and expose port 8000:
+Run the container with the API key environment variable:
 
 ```bash
-docker run -p 8000:8000 crawler-app
-```
-
-#### Run in Detached Mode
-
-To run the container in the background:
-
-```bash
-docker run -d -p 8000:8000 --name crawler crawler-app
+docker run -d -p 8000:8000 -e API_KEY=xkey --name scraper clivern/scraper:0.4.0
 ```
 
 ### API Usage
@@ -37,7 +19,7 @@ Once the container is running, the API will be available at `http://localhost:80
 Check if the API is running:
 
 ```bash
-curl http://localhost:8000/
+curl -H "X-API-Key: xkey" http://localhost:8000/
 ```
 
 #### Crawl a URL
@@ -47,6 +29,7 @@ Send a POST request to crawl a URL and get markdown content:
 ```bash
 curl -X POST http://localhost:8000/crawl \
   -H "Content-Type: application/json" \
+  -H "X-API-Key: xkey" \
   -d '{"url": "https://example.com"}'
 ```
 
@@ -57,6 +40,7 @@ Using `jq` for formatted JSON output:
 ```bash
 curl -X POST http://localhost:8000/crawl \
   -H "Content-Type: application/json" \
+  -H "X-API-Key: xkey" \
   -d '{"url": "https://ziee.io"}' \
   -s | jq .
 ```
